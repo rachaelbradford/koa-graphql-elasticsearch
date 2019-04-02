@@ -1,0 +1,32 @@
+{
+  "name": "koa-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node ./index.js",
+    "build": "babel src --out-dir dist",
+    "startprod": "pm2 start index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "nodemon": "^1.18.10"
+  },
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "elasticsearch": "^15.4.1",
+    "graphql": "^14.2.1",
+    "graphql-compose": "^6.1.1",
+    "graphql-compose-elasticsearch": "^3.0.1",
+    "koa": "^2.7.0",
+    "koa-graphql": "^0.8.0",
+    "koa-mount": "^4.0.0",
+    "pm2": "^3.4.1"
+  }
+}
