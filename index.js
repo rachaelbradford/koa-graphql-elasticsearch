@@ -1,7 +1,7 @@
 const Koa = require("koa");
 const mount = require("koa-mount");
 const graphqlHTTP = require("koa-graphql");
-const schema = require("./graphql/schema");
+const schema = require("./graphql/schema").default;
 
 const app = new Koa();
 

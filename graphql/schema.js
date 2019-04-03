@@ -12,7 +12,7 @@ const { GraphQLSchema, GraphQLObjectType } = graphql;
 //   GET http://user:pass@localhost:9200/demo_user/_mapping
 //   and then get subtree of returned document which contains
 //   properties definitions (which looks like following data):
-const demoUserMapping = {
+const productMapping = {
   properties: {
     created: {
       type: "date",
@@ -59,7 +59,7 @@ const ProductEsTC = composeWithElastic({
   graphqlTypeName: "ProductES",
   elasticIndex: "product",
   elasticType: "default",
-  elasticMapping: demoUserMapping,
+  elasticMapping: productMapping,
   elasticClient: new elasticsearch.Client({
     host: "http://localhost:9200",
     apiVersion: "6.6",
@@ -67,46 +67,42 @@ const ProductEsTC = composeWithElastic({
   }),
   // elastic mapping does not contain information about is fields are arrays or not
   // so provide this information explicitly for obtaining correct types in GraphQL
-  pluralFields: ["skills", "languages"]
+  pluralFields: ["tags"]
 });
 
-const ProxyTC = ObjectTypeComposer.createTemp(
-  `type ProxyDebugType { source: JSON }`
-);
-ProxyTC.addResolver({
-  name: "showArgs",
-  kind: "query",
-  args: {
-    source: "JSON"
-  },
-  type: "ProxyDebugType",
-  resolve: ({ args }) => args
-});
+// const ProxyTC = ObjectTypeComposer.createTemp(`type ProxyDebugType { source: JSON }`);
+// ProxyTC.addResolver({
+//   name: 'showArgs',
+//   kind: 'query',
+//   args: {
+//     source: 'JSON',
+//   },
+//   type: 'ProxyDebugType',
+//   resolve: ({ args }) => args,
+// });
 
-UserEsTC.addRelation("showRelationArguments", {
-  resolver: () => ProxyTC.getResolver("showArgs"),
-  prepareArgs: {
-    source: source => source
-  },
-  projection: {
-    name: true,
-    salary: true
-  }
-});
+// UserEsTC.addRelation('showRelationArguments', {
+//   resolver: () => ProxyTC.getResolver('showArgs'),
+//   prepareArgs: {
+//     source: source => source,
+//   },
+//   projection: {
+//     name: true,
+//     salary: true,
+//   },
+// });
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
     name: "Query",
     fields: {
-      userSearch: UserEsTC.getResolver("search").getFieldConfig(),
-      userSearchConnection: UserEsTC.getResolver(
-        "searchConnection"
-      ).getFieldConfig(),
-      elastic50: elasticApiFieldConfig({
-        host: "http://user:pass@localhost:9200",
-        apiVersion: "6.6",
-        log: "trace"
-      })
+      product: ProductEsTC.getResolver("search").getFieldConfig()
+      // productPagination: ProductEsTC.getResolver(
+      //   "searchPagination"
+      // ).getFieldConfig(),
+      // productConnection: ProductEsTC.getResolver(
+      //   "searchConnection"
+      // ).getFieldConfig()
     }
   })
 });
