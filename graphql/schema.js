@@ -75,12 +75,6 @@ const schema = new GraphQLSchema({
     name: "Query",
     fields: {
       product: ProductEsTC.getResolver("search").getFieldConfig()
-      // productPagination: ProductEsTC.getResolver(
-      //   "searchPagination"
-      // ).getFieldConfig(),
-      // productConnection: ProductEsTC.getResolver(
-      //   "searchConnection"
-      // ).getFieldConfig()
     }
   })
 });
