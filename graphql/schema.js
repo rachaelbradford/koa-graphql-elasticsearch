@@ -15,7 +15,10 @@ const { GraphQLSchema, GraphQLObjectType } = graphql;
 const productMapping = {
   properties: {
     created: {
-      type: "date",
+      // type: "date" was directly from the mappings - this had to be changed to "text" in order for
+      // graphql-compose to stop complaining about 'Field error: value is not an instance of Date'
+      // type: "date",
+      type: "text",
       format: "yyyy/MM/dd HH:mm:ss||yyyy/MM/dd"
     },
     description: {
