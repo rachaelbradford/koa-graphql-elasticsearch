@@ -23,3 +23,8 @@ An experimental repo to run koa on node and connect to elasticsearch with graphq
 	"query": "{product {count aggregations max_score took timed_out}}"
 }
 ```
+
+Resources used:
+- https://medium.freecodecamp.org/how-to-setup-a-powerful-api-with-graphql-koa-and-mongodb-339cfae832a1
+- https://github.com/graphql-compose/graphql-compose-elasticsearch
+-

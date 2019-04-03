@@ -8,8 +8,8 @@ import {
 const { GraphQLSchema, GraphQLObjectType } = graphql;
 
 // Mapping obtained from ElasticSearch server
-// If you have existed index in ES you may load mapping via
-//   GET http://user:pass@localhost:9200/demo_user/_mapping
+// For an existing index, access mappings from
+//   GET http://user:pass@localhost:9200/product/_mapping
 //   and then get subtree of returned document which contains
 //   properties definitions (which looks like following data):
 const productMapping = {
@@ -65,32 +65,10 @@ const ProductEsTC = composeWithElastic({
     apiVersion: "6.6",
     log: "trace"
   }),
-  // elastic mapping does not contain information about is fields are arrays or not
+  // elastic mapping does not contain information about which fields are arrays
   // so provide this information explicitly for obtaining correct types in GraphQL
   pluralFields: ["tags"]
 });
-
-// const ProxyTC = ObjectTypeComposer.createTemp(`type ProxyDebugType { source: JSON }`);
-// ProxyTC.addResolver({
-//   name: 'showArgs',
-//   kind: 'query',
-//   args: {
-//     source: 'JSON',
-//   },
-//   type: 'ProxyDebugType',
-//   resolve: ({ args }) => args,
-// });
-
-// UserEsTC.addRelation('showRelationArguments', {
-//   resolver: () => ProxyTC.getResolver('showArgs'),
-//   prepareArgs: {
-//     source: source => source,
-//   },
-//   projection: {
-//     name: true,
-//     salary: true,
-//   },
-// });
 
 const schema = new GraphQLSchema({
   query: new GraphQLObjectType({
