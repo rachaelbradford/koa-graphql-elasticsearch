@@ -17,10 +17,44 @@ An experimental repo to run koa on node and connect to elasticsearch with graphq
     }
 }
 ```
+```
+{
+    product(query: {match_all: {}}) {
+        hits {
+          _source {
+            description
+            discount
+            in_stock
+            is_active
+            name
+            price
+            sold
+          }
+          _index
+          _type
+          _id
+          _score
+          _shard
+          _node
+          _explanation
+          _version
+          highlight
+          sort
+          fields
+        }
+    }
+}
+```
+
 - Run graphql queries from a REST client such as Postman providing the request body as raw JSON
 ```
 {
 	"query": "{product {count aggregations max_score took timed_out}}"
+}
+```
+```
+{
+	"query": "{product(query:{match_all:{}}){ hits{ _source{ description discount in_stock is_active name price sold } _index _type _id _score _shard _node _explanation _version highlight sort fields }}}"
 }
 ```
 
